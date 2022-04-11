@@ -6,7 +6,7 @@ part 'quiz_model.freezed.dart';
 @freezed
 class Quiz with _$Quiz {
   const factory Quiz(
-      {required String name,
-      required List<Question> questions,
-      String? summary}) = _Quiz;
+      {required final String name,
+      required final List<Question> questions,
+      final String? summary}) = _Quiz;
 }
