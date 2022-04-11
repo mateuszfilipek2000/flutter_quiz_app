@@ -40,6 +40,20 @@ class QuizDetailsScreen extends StatelessWidget {
                         ? const Text("Finish Quiz")
                         : const Text("Next Question"),
                   ),
+                  ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: state.question.answers.length,
+                    itemBuilder: (context, index) {
+                      return CheckboxListTile(
+                        value: state.selectedAnswers.contains(index),
+                        onChanged: (_) => context.read<QuizDetailsBloc>().add(
+                              QuizDetailsChangeCheckAnswer(index),
+                            ),
+                        title: Text(state.question.answers[index].content),
+                      );
+                    },
+                  ),
                 ],
               );
             } else {

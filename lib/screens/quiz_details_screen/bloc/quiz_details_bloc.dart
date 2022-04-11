@@ -7,6 +7,8 @@ class QuizDetailsBloc extends Bloc<QuizDetailsEvent, QuizDetailsState> {
   QuizDetailsBloc({
     required Quiz quiz,
   })  : _quiz = quiz,
+        answers =
+            List<List<int>>.generate(quiz.questions.length, (index) => []),
         super(QuizDetailsQuestionDetails(
             quiz.questions[0], 0, QuizQuestionDetailsStatus.start)) {
     on<QuizDetailsNextQuestion>((event, emit) {
@@ -16,8 +18,15 @@ class QuizDetailsBloc extends Bloc<QuizDetailsEvent, QuizDetailsState> {
             index + 1 == _quiz.questions.length - 1
                 ? QuizQuestionDetailsStatus.end
                 : QuizQuestionDetailsStatus.normal;
-        emit(QuizDetailsQuestionDetails(
-            _quiz.questions[index + 1], index + 1, status));
+        answers[index] = (state as QuizDetailsQuestionDetails).selectedAnswers;
+        emit(
+          QuizDetailsQuestionDetails(
+            _quiz.questions[index + 1],
+            index + 1,
+            status,
+            selectedAnswers: answers[index + 1],
+          ),
+        );
       }
     });
     on<QuizDetailsPreviousQuestion>((event, emit) {
@@ -26,11 +35,35 @@ class QuizDetailsBloc extends Bloc<QuizDetailsEvent, QuizDetailsState> {
         QuizQuestionDetailsStatus status = index - 1 == 0
             ? QuizQuestionDetailsStatus.start
             : QuizQuestionDetailsStatus.normal;
+
+        answers[index] = (state as QuizDetailsQuestionDetails).selectedAnswers;
         emit(QuizDetailsQuestionDetails(
-            _quiz.questions[index - 1], index - 1, status));
+          _quiz.questions[index - 1],
+          index - 1,
+          status,
+          selectedAnswers: answers[index - 1],
+        ));
+      }
+    });
+    on<QuizDetailsChangeCheckAnswer>((event, emit) {
+      if (state is QuizDetailsQuestionDetails) {
+        List<int> selectedAnswers = (state as QuizDetailsQuestionDetails)
+            .selectedAnswers
+            .map((e) => e)
+            .toList();
+        if ((state as QuizDetailsQuestionDetails)
+            .selectedAnswers
+            .contains(event.answerIndex)) {
+          emit((state as QuizDetailsQuestionDetails).copyWith(
+              selectedAnswers: selectedAnswers..remove(event.answerIndex)));
+        } else {
+          emit((state as QuizDetailsQuestionDetails).copyWith(
+              selectedAnswers: selectedAnswers..add(event.answerIndex)));
+        }
       }
     });
   }
 
   final Quiz _quiz;
+  late final List<List<int>> answers;
 }

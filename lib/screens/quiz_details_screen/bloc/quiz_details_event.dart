@@ -9,3 +9,9 @@ class QuizDetailsNextQuestion extends QuizDetailsEvent {
 class QuizDetailsPreviousQuestion extends QuizDetailsEvent {
   const QuizDetailsPreviousQuestion();
 }
+
+class QuizDetailsChangeCheckAnswer extends QuizDetailsEvent {
+  const QuizDetailsChangeCheckAnswer(this.answerIndex);
+
+  final int answerIndex;
+}
