@@ -156,5 +156,6 @@ class QuizRepository {
       );
       return _quiz;
     }
+    return null;
   }
 }
