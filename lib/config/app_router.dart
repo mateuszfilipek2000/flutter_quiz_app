@@ -30,10 +30,24 @@ class AppRouter {
         );
 
       case QuizResultsScreen.routeName:
-        return MaterialPageRoute(
-          builder: (_) => const QuizResultsScreen(),
-          settings: const RouteSettings(name: QuizResultsScreen.routeName),
-        );
+        final arguments = settings.arguments;
+        if (arguments is Map<String, Object> &&
+            arguments['user_answers'] is List<List<int>> &&
+            arguments['quiz'] is Quiz) {
+          return MaterialPageRoute(
+            builder: (_) => QuizResultsScreen(
+              quiz: arguments['quiz'] as Quiz,
+              userAnswers: arguments['user_answers'] as List<List<int>>,
+            ),
+            settings: const RouteSettings(name: QuizResultsScreen.routeName),
+          );
+        } else {
+          //TODO implement error route
+          return MaterialPageRoute(
+            builder: (_) => const QuizSelectScreen(),
+            settings: const RouteSettings(name: QuizSelectScreen.routeName),
+          );
+        }
       default:
         return MaterialPageRoute(
           builder: (_) => const QuizSelectScreen(),

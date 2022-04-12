@@ -15,3 +15,7 @@ class QuizDetailsChangeCheckAnswer extends QuizDetailsEvent {
 
   final int answerIndex;
 }
+
+class QuizDetailsFinishQuiz extends QuizDetailsEvent {
+  const QuizDetailsFinishQuiz();
+}

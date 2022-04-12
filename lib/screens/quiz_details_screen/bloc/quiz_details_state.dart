@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc_quiz_app/models/question_model.dart';
+import 'package:flutter_bloc_quiz_app/models/quiz_model.dart';
 
 enum QuizQuestionDetailsStatus { start, normal, end }
 
@@ -41,6 +42,9 @@ class QuizDetailsQuestionDetails extends QuizDetailsState {
   }
 }
 
-class QuizDetailsFinish extends QuizDetailsState {
-  const QuizDetailsFinish();
+class QuizDetailsFinished extends QuizDetailsState {
+  const QuizDetailsFinished(this.quiz, this.userAnswers);
+
+  final List<List<int>> userAnswers;
+  final Quiz quiz;
 }
