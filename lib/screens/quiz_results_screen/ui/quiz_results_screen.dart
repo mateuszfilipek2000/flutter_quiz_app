@@ -20,24 +20,51 @@ class QuizResultsScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           final currentQuestionAnswers = quiz.questions[index].answers;
           final currentUserAnswers = userAnswers[index];
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: currentQuestionAnswers.length,
-            itemBuilder: (context, i) {
-              //TODO FIX COLORS
-              return Container(
-                decoration: BoxDecoration(
-                  color: currentQuestionAnswers[i].isCorrect &&
-                          currentUserAnswers.contains(i)
-                      ? Colors.green
-                      : currentQuestionAnswers[i].isCorrect &&
-                              !currentUserAnswers.contains(i)
-                          ? Colors.red
-                          : null,
-                ),
-                child: Text(currentQuestionAnswers[i].content),
-              );
-            },
+          final currentQuestion = quiz.questions[index];
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Text(
+                      currentQuestion.content,
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: currentQuestionAnswers.length,
+                    itemBuilder: (context, i) {
+                      return ListTile(
+                        trailing: currentUserAnswers.contains(i)
+                            ? const Icon(Icons.check_box_outlined)
+                            : const Icon(
+                                Icons.check_box_outline_blank_outlined),
+                        tileColor: currentQuestionAnswers[i].isCorrect &&
+                                currentUserAnswers.contains(i)
+                            ? Colors.green
+                            : currentQuestionAnswers[i].isCorrect &&
+                                    !currentUserAnswers.contains(i)
+                                ? !currentQuestionAnswers[i].isCorrect &&
+                                        currentUserAnswers.contains(i)
+                                    ? Colors.red
+                                    : null
+                                : !currentQuestionAnswers[i].isCorrect &&
+                                        currentUserAnswers.contains(i)
+                                    ? Colors.red
+                                    : null,
+                        title: Text(currentQuestionAnswers[i].content),
+                        // shape: const RoundedRectangleBorder(
+                        //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                        // ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
           );
         },
       ),
