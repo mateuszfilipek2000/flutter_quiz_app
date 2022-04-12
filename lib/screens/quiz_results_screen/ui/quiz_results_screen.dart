@@ -47,15 +47,25 @@ class QuizResultsScreen extends StatelessWidget {
                             ? Colors.green
                             : currentQuestionAnswers[i].isCorrect &&
                                     !currentUserAnswers.contains(i)
-                                ? !currentQuestionAnswers[i].isCorrect &&
-                                        currentUserAnswers.contains(i)
-                                    ? Colors.red
+                                ? currentQuestionAnswers[i].isCorrect &&
+                                        !currentUserAnswers.contains(i)
+                                    ? Colors.green
                                     : null
                                 : !currentQuestionAnswers[i].isCorrect &&
                                         currentUserAnswers.contains(i)
                                     ? Colors.red
                                     : null,
-                        title: Text(currentQuestionAnswers[i].content),
+                        title: Text(
+                          currentQuestionAnswers[i].content,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(
+                                  color: currentQuestionAnswers[i].isCorrect ||
+                                          currentUserAnswers.contains(i)
+                                      ? Colors.white
+                                      : null),
+                        ),
                         // shape: const RoundedRectangleBorder(
                         //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
                         // ),

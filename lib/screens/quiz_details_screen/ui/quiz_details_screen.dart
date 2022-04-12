@@ -31,42 +31,55 @@ class QuizDetailsScreen extends StatelessWidget {
             builder: (context, state) {
               if (state is QuizDetailsQuestionDetails) {
                 return Column(
+                  mainAxisSize: MainAxisSize.max,
                   children: [
-                    Text(state.question.content),
-                    ElevatedButton(
-                      onPressed: state.status == QuizQuestionDetailsStatus.start
-                          ? null
-                          : () => context
-                              .read<QuizDetailsBloc>()
-                              .add(const QuizDetailsPreviousQuestion()),
-                      child: const Text("Previous Question"),
+                    Text(
+                      state.question.content,
+                      style: Theme.of(context).textTheme.headline5,
                     ),
-                    ElevatedButton(
-                      onPressed: state.status == QuizQuestionDetailsStatus.end
-                          ? () => context
-                              .read<QuizDetailsBloc>()
-                              .add(const QuizDetailsFinishQuiz())
-                          : () => context
-                              .read<QuizDetailsBloc>()
-                              .add(const QuizDetailsNextQuestion()),
-                      child: state.status == QuizQuestionDetailsStatus.end
-                          ? const Text("Finish Quiz")
-                          : const Text("Next Question"),
+                    Center(
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: state.question.answers.length,
+                        itemBuilder: (context, index) {
+                          return CheckboxListTile(
+                            value: state.selectedAnswers.contains(index),
+                            onChanged: (_) =>
+                                context.read<QuizDetailsBloc>().add(
+                                      QuizDetailsChangeCheckAnswer(index),
+                                    ),
+                            title: Text(state.question.answers[index].content),
+                          );
+                        },
+                      ),
                     ),
-                    ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: state.question.answers.length,
-                      itemBuilder: (context, index) {
-                        return CheckboxListTile(
-                          value: state.selectedAnswers.contains(index),
-                          onChanged: (_) => context.read<QuizDetailsBloc>().add(
-                                QuizDetailsChangeCheckAnswer(index),
-                              ),
-                          title: Text(state.question.answers[index].content),
-                        );
-                      },
-                    ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ElevatedButton(
+                            onPressed: state.status ==
+                                    QuizQuestionDetailsStatus.start
+                                ? null
+                                : () => context
+                                    .read<QuizDetailsBloc>()
+                                    .add(const QuizDetailsPreviousQuestion()),
+                            child: const Text("Previous Question"),
+                          ),
+                          ElevatedButton(
+                            onPressed: state.status ==
+                                    QuizQuestionDetailsStatus.end
+                                ? () => context
+                                    .read<QuizDetailsBloc>()
+                                    .add(const QuizDetailsFinishQuiz())
+                                : () => context
+                                    .read<QuizDetailsBloc>()
+                                    .add(const QuizDetailsNextQuestion()),
+                            child: state.status == QuizQuestionDetailsStatus.end
+                                ? const Text("Finish Quiz")
+                                : const Text("Next Question"),
+                          ),
+                        ]),
                   ],
                 );
               } else {
