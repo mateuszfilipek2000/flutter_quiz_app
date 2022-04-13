@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+Question _$QuestionFromJson(Map<String, dynamic> json) {
+  return _Question.fromJson(json);
+}
+
 /// @nodoc
 class _$QuestionTearOff {
   const _$QuestionTearOff();
@@ -23,6 +27,10 @@ class _$QuestionTearOff {
       content: content,
       answers: answers,
     );
+  }
+
+  Question fromJson(Map<String, Object?> json) {
+    return Question.fromJson(json);
   }
 }
 
@@ -34,6 +42,7 @@ mixin _$Question {
   String get content => throw _privateConstructorUsedError;
   List<Answer> get answers => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $QuestionCopyWith<Question> get copyWith =>
       throw _privateConstructorUsedError;
@@ -108,9 +117,12 @@ class __$QuestionCopyWithImpl<$Res> extends _$QuestionCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Question implements _Question {
   const _$_Question({required this.content, required this.answers});
+
+  factory _$_Question.fromJson(Map<String, dynamic> json) =>
+      _$$_QuestionFromJson(json);
 
   @override
   final String content;
@@ -141,11 +153,18 @@ class _$_Question implements _Question {
   @override
   _$QuestionCopyWith<_Question> get copyWith =>
       __$QuestionCopyWithImpl<_Question>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_QuestionToJson(this);
+  }
 }
 
 abstract class _Question implements Question {
   const factory _Question(
       {required String content, required List<Answer> answers}) = _$_Question;
+
+  factory _Question.fromJson(Map<String, dynamic> json) = _$_Question.fromJson;
 
   @override
   String get content;

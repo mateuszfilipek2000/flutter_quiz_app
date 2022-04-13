@@ -14,15 +14,7 @@
                 },
                 {
                     "content": "11",
-                    "isCorrect": false
-                },
-                {
-                    "content": "12",
-                    "isCorrect": false
-                }
-            ]
-        },
-        {
+                    "isCo
             "content": "How many days does it take for the Earth to orbit the Sun?",
             "answers": [
                 {

@@ -22,8 +22,10 @@ class QuizResultsScreen extends StatelessWidget {
           final currentUserAnswers = userAnswers[index];
           final currentQuestion = quiz.questions[index];
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(10.0),
             child: Card(
+              clipBehavior: Clip.hardEdge,
+              elevation: 15.0,
               child: Column(
                 children: [
                   Padding(

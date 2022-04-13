@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+Quiz _$QuizFromJson(Map<String, dynamic> json) {
+  return _Quiz.fromJson(json);
+}
+
 /// @nodoc
 class _$QuizTearOff {
   const _$QuizTearOff();
@@ -28,6 +32,10 @@ class _$QuizTearOff {
       summary: summary,
     );
   }
+
+  Quiz fromJson(Map<String, Object?> json) {
+    return Quiz.fromJson(json);
+  }
 }
 
 /// @nodoc
@@ -39,6 +47,7 @@ mixin _$Quiz {
   List<Question> get questions => throw _privateConstructorUsedError;
   String? get summary => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $QuizCopyWith<Quiz> get copyWith => throw _privateConstructorUsedError;
 }
@@ -122,9 +131,11 @@ class __$QuizCopyWithImpl<$Res> extends _$QuizCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Quiz implements _Quiz {
   const _$_Quiz({required this.name, required this.questions, this.summary});
+
+  factory _$_Quiz.fromJson(Map<String, dynamic> json) => _$$_QuizFromJson(json);
 
   @override
   final String name;
@@ -159,6 +170,11 @@ class _$_Quiz implements _Quiz {
   @override
   _$QuizCopyWith<_Quiz> get copyWith =>
       __$QuizCopyWithImpl<_Quiz>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_QuizToJson(this);
+  }
 }
 
 abstract class _Quiz implements Quiz {
@@ -166,6 +182,8 @@ abstract class _Quiz implements Quiz {
       {required String name,
       required List<Question> questions,
       String? summary}) = _$_Quiz;
+
+  factory _Quiz.fromJson(Map<String, dynamic> json) = _$_Quiz.fromJson;
 
   @override
   String get name;

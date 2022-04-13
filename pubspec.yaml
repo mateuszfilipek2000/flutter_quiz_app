@@ -36,9 +36,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   file_picker: ^4.5.1
   flutter_bloc: ^8.0.1
-  freezed: ^1.1.1
+  freezed: ^1.1.0
   equatable: ^2.0.3
   build_runner: ^2.1.8
+  json_serializable: ^6.1.5
+  json_annotation: ^4.4.0
+  bloc_test: ^9.0.3
+  test: ^1.19.5
 
 dev_dependencies:
   flutter_test:
