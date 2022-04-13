@@ -23,6 +23,21 @@ class QuizSelectScreen extends StatelessWidget {
             Navigator.of(context)
                 .pushNamed(QuizDetailsScreen.routeName, arguments: state.quiz);
           }
+          if (state is QuizSelectionFailure) {
+            showDialog(
+                context: context,
+                builder: (_) {
+                  return AlertDialog(
+                    title: const Text("Quiz selection error"),
+                    actions: [
+                      TextButton(
+                        child: const Text("Ok"),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ],
+                  );
+                });
+          }
         },
         child: Stack(
           children: [
