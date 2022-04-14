@@ -10,11 +10,39 @@ import 'package:flutter_bloc_quiz_app/screens/quiz_details_screen/bloc/timer_blo
 import 'package:flutter_bloc_quiz_app/screens/quiz_results_screen/ui/quiz_results_screen.dart';
 import 'package:flutter_bloc_quiz_app/screens/quiz_select_screen/ui/widgets/animated_background.dart';
 
-class QuizDetailsScreen extends StatelessWidget {
+class QuizDetailsScreen extends StatefulWidget {
   static const routeName = 'QuizDetailsScreen';
   const QuizDetailsScreen({Key? key, required this.quiz}) : super(key: key);
 
   final Quiz quiz;
+
+  @override
+  State<QuizDetailsScreen> createState() => _QuizDetailsScreenState();
+}
+
+class _QuizDetailsScreenState extends State<QuizDetailsScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController fadeInAnimationController;
+  late Animation<double> fadeInAnimation;
+
+  @override
+  void initState() {
+    fadeInAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1500));
+
+    fadeInAnimation = Tween<double>(begin: 1.2, end: 0).animate(CurvedAnimation(
+        parent: fadeInAnimationController, curve: Curves.bounceOut));
+
+    fadeInAnimationController.forward();
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    fadeInAnimationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +50,7 @@ class QuizDetailsScreen extends StatelessWidget {
       body: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => QuizDetailsBloc(quiz: quiz),
+            create: (context) => QuizDetailsBloc(quiz: widget.quiz),
           ),
           BlocProvider(
             create: (context) => TimerBloc(Ticker()),
@@ -42,6 +70,28 @@ class QuizDetailsScreen extends StatelessWidget {
                                 .duration)
                     : null
               });
+              // fadeInAnimationController.reset();
+
+              // fadeInAnimation = Tween<double>(begin: -0.5, end: 0).animate(
+              //     CurvedAnimation(
+              //         parent: fadeInAnimationController,
+              //         curve: Curves.easeInBack))
+              //   ..addStatusListener((status) {
+              //     if (status == AnimationStatus.completed) {
+              //       Navigator.of(context)
+              //           .pushNamed(QuizResultsScreen.routeName, arguments: {
+              //         'user_answers': state.userAnswers,
+              //         'quiz': state.quiz,
+              //         'duration':
+              //             context.read<TimerBloc>().state is TimerRunning
+              //                 ? Duration(
+              //                     seconds: (context.read<TimerBloc>().state
+              //                             as TimerRunning)
+              //                         .duration)
+              //                 : null
+              //       });
+              //     }
+              //   });
             }
           },
           child: BlocBuilder<QuizDetailsBloc, QuizDetailsState>(
@@ -50,7 +100,6 @@ class QuizDetailsScreen extends StatelessWidget {
                 return Stack(
                   fit: StackFit.expand,
                   children: [
-                    const AnimatedBackground(maxHeightFraction: 0.1),
                     Align(
                       alignment: Alignment.topLeft,
                       child: Card(
@@ -152,6 +201,12 @@ class QuizDetailsScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    AnimatedBuilder(
+                        animation: fadeInAnimation,
+                        builder: (context, _) {
+                          return AnimatedBackground(
+                              maxHeightFraction: 0.1 + fadeInAnimation.value);
+                        }),
                   ],
                 );
               } else {

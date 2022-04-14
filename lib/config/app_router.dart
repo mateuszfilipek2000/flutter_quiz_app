@@ -23,21 +23,10 @@ class AppRouter {
       case QuizDetailsScreen.routeName:
         final arguments = settings.arguments;
         if (arguments is Quiz) {
-          return PageRouteBuilder(
-            pageBuilder: (_, __, ___) => QuizDetailsScreen(
+          return MaterialPageRoute(
+            builder: (_) => QuizDetailsScreen(
               quiz: arguments,
             ),
-            transitionsBuilder: (_, a, s, c) {
-              const begin = Offset(1.0, 0.0);
-              const end = Offset.zero;
-              final tween = Tween(begin: begin, end: end);
-              final offsetAnimation = a.drive(tween);
-              return SlideTransition(
-                position: offsetAnimation,
-                child: c,
-              );
-            },
-            transitionDuration: const Duration(milliseconds: 500),
             settings: const RouteSettings(name: QuizDetailsScreen.routeName),
           );
         }

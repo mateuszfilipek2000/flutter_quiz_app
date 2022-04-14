@@ -42,8 +42,11 @@ class QuizDetailsQuestionDetails extends QuizDetailsState {
   }
 }
 
-class QuizDetailsFinished extends QuizDetailsState {
-  const QuizDetailsFinished(this.quiz, this.userAnswers);
+class QuizDetailsFinished extends QuizDetailsQuestionDetails {
+  const QuizDetailsFinished(this.quiz, this.userAnswers, question,
+      questionIndex, status, selectedAnswers)
+      : super(question, questionIndex, status,
+            selectedAnswers: selectedAnswers);
 
   final List<List<int>> userAnswers;
   final Quiz quiz;

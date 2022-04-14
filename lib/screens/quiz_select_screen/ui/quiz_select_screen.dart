@@ -9,10 +9,39 @@ import 'dart:math';
 
 import 'package:flutter_bloc_quiz_app/screens/quiz_select_screen/ui/widgets/animated_background.dart';
 
-class QuizSelectScreen extends StatelessWidget {
+class QuizSelectScreen extends StatefulWidget {
   static const String routeName = '/';
 
   const QuizSelectScreen({Key? key}) : super(key: key);
+
+  @override
+  State<QuizSelectScreen> createState() => _QuizSelectScreenState();
+}
+
+class _QuizSelectScreenState extends State<QuizSelectScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController fadeOutAnimationController;
+  late Animation<double> fadeOutAnimation;
+
+  @override
+  void initState() {
+    fadeOutAnimationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1));
+
+    fadeOutAnimation = Tween<double>(begin: 0.0, end: 1.2).animate(
+        CurvedAnimation(
+            parent: fadeOutAnimationController, curve: Curves.easeInBack));
+
+    // fadeOutAnimationController.forward();
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    fadeOutAnimationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +55,14 @@ class QuizSelectScreen extends StatelessWidget {
         child: BlocListener<QuizSelectionBloc, QuizSelectionState>(
           listener: (context, state) {
             if (state is QuizSelectionSuccess) {
-              Navigator.of(context).pushNamed(QuizDetailsScreen.routeName,
-                  arguments: state.quiz);
+              fadeOutAnimationController
+                ..addStatusListener((status) {
+                  if (status == AnimationStatus.completed) {
+                    Navigator.of(context).pushNamed(QuizDetailsScreen.routeName,
+                        arguments: state.quiz);
+                  }
+                })
+                ..forward();
             }
             if (state is QuizSelectionFailure) {
               showDialog(
@@ -48,7 +83,6 @@ class QuizSelectScreen extends StatelessWidget {
           },
           child: Stack(
             children: [
-              const AnimatedBackground(maxHeightFraction: 0.16),
               Center(
                 child: BlocBuilder<QuizSelectionBloc, QuizSelectionState>(
                   builder: (context, state) {
@@ -79,6 +113,12 @@ class QuizSelectScreen extends StatelessWidget {
                   },
                 ),
               ),
+              AnimatedBuilder(
+                  animation: fadeOutAnimation,
+                  builder: (context, _) {
+                    return AnimatedBackground(
+                        maxHeightFraction: 0.16 + fadeOutAnimation.value);
+                  }),
             ],
           ),
         ),

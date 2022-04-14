@@ -64,10 +64,13 @@ class QuizDetailsBloc extends Bloc<QuizDetailsEvent, QuizDetailsState> {
     });
     on<QuizDetailsFinishQuiz>((event, emit) {
       if (state is QuizDetailsQuestionDetails) {
+        QuizDetailsQuestionDetails status =
+            (state as QuizDetailsQuestionDetails);
         int index = (state as QuizDetailsQuestionDetails).questionIndex;
         answers[index] = (state as QuizDetailsQuestionDetails).selectedAnswers;
 
-        emit(QuizDetailsFinished(quiz, answers));
+        emit(QuizDetailsFinished(quiz, answers, status.question,
+            status.questionIndex, status.status, status.selectedAnswers));
       }
     });
   }
