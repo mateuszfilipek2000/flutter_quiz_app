@@ -14,6 +14,8 @@ class QuizSelectScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final double smallerDimension = min(size.width, size.height);
     return Scaffold(
       body: BlocProvider(
         create: (context) => QuizSelectionBloc(
@@ -44,10 +46,7 @@ class QuizSelectScreen extends StatelessWidget {
           },
           child: Stack(
             children: [
-              const Hero(
-                tag: "AnimatedBackground",
-                child: AnimatedBackground(maxHeightFraction: 0.16),
-              ),
+              const AnimatedBackground(maxHeightFraction: 0.16),
               Center(
                 child: BlocBuilder<QuizSelectionBloc, QuizSelectionState>(
                   builder: (context, state) {
@@ -58,8 +57,8 @@ class QuizSelectScreen extends StatelessWidget {
                               .read<QuizSelectionBloc>()
                               .add(const QuizSelectionButtonPressed()),
                       child: SizedBox(
-                        height: 300,
-                        width: 300,
+                        height: smallerDimension * 0.5,
+                        width: smallerDimension * 0.5,
                         child: Center(
                           child: Text(
                             "Select Quiz",
@@ -136,7 +135,7 @@ class AnimatedWaves extends AnimatedWidget {
     required this.animation,
     required this.width,
     required this.maxHeightFraction,
-  }) : super(listenable: animation);
+  }) : super(key: key, listenable: animation);
 
   final Animation<double> animation;
   final double width;
@@ -186,8 +185,8 @@ class WaveClipper extends CustomClipper<Path> {
 
     var waveHeight = height - (height * heightFraction);
 
-    var percentOfHeight = height / 100;
-    var percentOfWidth = width / 100;
+    // var percentOfHeight = height / 100;
+    // var percentOfWidth = width / 100;
 
     Path path = Path()
       ..moveTo(width, waveHeight)

@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_quiz_app/models/quiz_model.dart';
-import 'package:flutter_bloc_quiz_app/screens/quiz_details_screen/bloc/quiz_details_event.dart';
-import 'package:flutter_bloc_quiz_app/screens/quiz_details_screen/bloc/quiz_details_state.dart';
+import 'package:flutter_bloc_quiz_app/screens/quiz_details_screen/bloc/quiz_details_bloc/quiz_details_event.dart';
+import 'package:flutter_bloc_quiz_app/screens/quiz_details_screen/bloc/quiz_details_bloc/quiz_details_state.dart';
 
 class QuizDetailsBloc extends Bloc<QuizDetailsEvent, QuizDetailsState> {
   QuizDetailsBloc({

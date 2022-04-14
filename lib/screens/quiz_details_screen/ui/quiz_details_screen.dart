@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_quiz_app/core/utils/ticker.dart';
 import 'package:flutter_bloc_quiz_app/models/quiz_model.dart';
-import 'package:flutter_bloc_quiz_app/screens/quiz_details_screen/bloc/quiz_details_bloc.dart';
-import 'package:flutter_bloc_quiz_app/screens/quiz_details_screen/bloc/quiz_details_event.dart';
-import 'package:flutter_bloc_quiz_app/screens/quiz_details_screen/bloc/quiz_details_state.dart';
+import 'package:flutter_bloc_quiz_app/screens/quiz_details_screen/bloc/quiz_details_bloc/quiz_details_bloc.dart';
+import 'package:flutter_bloc_quiz_app/screens/quiz_details_screen/bloc/quiz_details_bloc/quiz_details_event.dart';
+import 'package:flutter_bloc_quiz_app/screens/quiz_details_screen/bloc/quiz_details_bloc/quiz_details_state.dart';
+import 'package:flutter_bloc_quiz_app/screens/quiz_details_screen/bloc/timer_bloc/timer_bloc.dart';
+import 'package:flutter_bloc_quiz_app/screens/quiz_details_screen/bloc/timer_bloc/timer_state.dart';
 import 'package:flutter_bloc_quiz_app/screens/quiz_results_screen/ui/quiz_results_screen.dart';
 import 'package:flutter_bloc_quiz_app/screens/quiz_select_screen/ui/quiz_select_screen.dart';
 
@@ -16,8 +19,15 @@ class QuizDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
-        create: (context) => QuizDetailsBloc(quiz: quiz),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => QuizDetailsBloc(quiz: quiz),
+          ),
+          BlocProvider(
+            create: (context) => TimerBloc(Ticker()),
+          ),
+        ],
         child: BlocListener<QuizDetailsBloc, QuizDetailsState>(
           listener: (context, state) {
             if (state is QuizDetailsFinished) {
@@ -34,10 +44,32 @@ class QuizDetailsScreen extends StatelessWidget {
                 return Stack(
                   fit: StackFit.expand,
                   children: [
-                    //TODO PRESERVE ANIMATION STATE DURING HERO TRANSITION
-                    const Hero(
-                      tag: "AnimatedBackground",
-                      child: AnimatedBackground(maxHeightFraction: 0.1),
+                    const AnimatedBackground(maxHeightFraction: 0.1),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: BlocBuilder<TimerBloc, TimerState>(
+                            builder: (context, state) {
+                              if (state is TimerRunning) {
+                                return Text(
+                                  Duration(seconds: state.duration)
+                                      .toString()
+                                      .split('.')
+                                      .first
+                                      .padLeft(8, "0"),
+                                  style: Theme.of(context).textTheme.subtitle2,
+                                );
+                              }
+                              return Text(
+                                "00:00:00",
+                                style: Theme.of(context).textTheme.subtitle2,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
                     ),
                     Center(
                       child: Card(
@@ -66,7 +98,11 @@ class QuizDetailsScreen extends StatelessWidget {
                                           QuizDetailsChangeCheckAnswer(index),
                                         ),
                                     title: Text(
-                                        state.question.answers[index].content),
+                                      state.question.answers[index].content,
+                                      style:
+                                          Theme.of(context).textTheme.subtitle1,
+                                    ),
+                                    contentPadding: const EdgeInsets.all(10),
                                   );
                                 },
                               ),

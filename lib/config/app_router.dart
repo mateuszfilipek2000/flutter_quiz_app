@@ -9,17 +9,33 @@ class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(
-          builder: (_) => const QuizSelectScreen(),
+        return PageRouteBuilder(
+          pageBuilder: (_, __, ___) => const QuizSelectScreen(),
+          transitionsBuilder: (_, a, __, c) => FadeTransition(
+            opacity: a,
+            child: c,
+          ),
+          transitionDuration: const Duration(milliseconds: 1000),
           settings: const RouteSettings(name: QuizSelectScreen.routeName),
         );
       case QuizDetailsScreen.routeName:
         final arguments = settings.arguments;
         if (arguments is Quiz) {
-          return MaterialPageRoute(
-            builder: (_) => QuizDetailsScreen(
+          return PageRouteBuilder(
+            pageBuilder: (_, __, ___) => QuizDetailsScreen(
               quiz: arguments,
             ),
+            transitionsBuilder: (_, a, s, c) {
+              const begin = Offset(1.0, 0.0);
+              const end = Offset.zero;
+              final tween = Tween(begin: begin, end: end);
+              final offsetAnimation = a.drive(tween);
+              return SlideTransition(
+                position: offsetAnimation,
+                child: c,
+              );
+            },
+            transitionDuration: const Duration(milliseconds: 500),
             settings: const RouteSettings(name: QuizDetailsScreen.routeName),
           );
         }
