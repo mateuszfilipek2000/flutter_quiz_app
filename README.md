@@ -15,6 +15,9 @@ Quiz files are stored in .json format, encrypted with a simple caesar cipher, wi
     * bloc_test: ^9.0.3
     * test: ^1.19.5
 
+## Animated Preview
+<img src="screenshots/preview.GIF" width="500">
+
 ## Preview
 <img src="screenshots/quiz_selection.png" width="500">
 <img src="screenshots/quiz_details.png" width="500">
