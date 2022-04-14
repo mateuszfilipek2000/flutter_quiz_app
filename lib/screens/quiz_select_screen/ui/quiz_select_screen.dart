@@ -14,66 +14,72 @@ class QuizSelectScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => QuizSelectionBloc(
-        quizRepository: RepositoryProvider.of<QuizRepository>(context),
-      ),
-      child: BlocListener<QuizSelectionBloc, QuizSelectionState>(
-        listener: (context, state) {
-          if (state is QuizSelectionSuccess) {
-            Navigator.of(context)
-                .pushNamed(QuizDetailsScreen.routeName, arguments: state.quiz);
-          }
-          if (state is QuizSelectionFailure) {
-            showDialog(
-              context: context,
-              builder: (_) {
-                return AlertDialog(
-                  title: const Text("Quiz selection error"),
-                  actions: [
-                    TextButton(
-                      child: const Text("Ok"),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ],
-                );
-              },
-            );
-          }
-        },
-        child: Stack(
-          children: [
-            const AnimatedBackground(),
-            Center(
-              child: BlocBuilder<QuizSelectionBloc, QuizSelectionState>(
-                builder: (context, state) {
-                  return ElevatedButton(
-                    onPressed: state is QuizSelectionInProgress
-                        ? null
-                        : () => context
-                            .read<QuizSelectionBloc>()
-                            .add(const QuizSelectionButtonPressed()),
-                    child: SizedBox(
-                      height: 300,
-                      width: 300,
-                      child: Center(
-                        child: Text(
-                          "Select Quiz",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineLarge
-                              ?.copyWith(
-                                color:
-                                    Theme.of(context).colorScheme.onBackground,
-                              ),
-                        ),
+    return Scaffold(
+      body: BlocProvider(
+        create: (context) => QuizSelectionBloc(
+          quizRepository: RepositoryProvider.of<QuizRepository>(context),
+        ),
+        child: BlocListener<QuizSelectionBloc, QuizSelectionState>(
+          listener: (context, state) {
+            if (state is QuizSelectionSuccess) {
+              Navigator.of(context).pushNamed(QuizDetailsScreen.routeName,
+                  arguments: state.quiz);
+            }
+            if (state is QuizSelectionFailure) {
+              showDialog(
+                context: context,
+                builder: (_) {
+                  return AlertDialog(
+                    title: const Text("Quiz selection error"),
+                    actions: [
+                      TextButton(
+                        child: const Text("Ok"),
+                        onPressed: () => Navigator.pop(context),
                       ),
-                    ),
+                    ],
                   );
                 },
+              );
+            }
+          },
+          child: Stack(
+            children: [
+              const Hero(
+                tag: "AnimatedBackground",
+                child: AnimatedBackground(maxHeightFraction: 0.16),
               ),
-            ),
-          ],
+              Center(
+                child: BlocBuilder<QuizSelectionBloc, QuizSelectionState>(
+                  builder: (context, state) {
+                    return ElevatedButton(
+                      onPressed: state is QuizSelectionInProgress
+                          ? null
+                          : () => context
+                              .read<QuizSelectionBloc>()
+                              .add(const QuizSelectionButtonPressed()),
+                      child: SizedBox(
+                        height: 300,
+                        width: 300,
+                        child: Center(
+                          child: Text(
+                            "Select Quiz",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineLarge
+                                ?.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
+                                ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -81,7 +87,10 @@ class QuizSelectScreen extends StatelessWidget {
 }
 
 class AnimatedBackground extends StatefulWidget {
-  const AnimatedBackground({Key? key}) : super(key: key);
+  const AnimatedBackground({Key? key, required this.maxHeightFraction})
+      : super(key: key);
+
+  final double maxHeightFraction;
 
   @override
   State<AnimatedBackground> createState() => _AnimatedBackgroundState();
@@ -106,42 +115,53 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
 
   @override
   void dispose() {
-    super.dispose();
     animationController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
-    return AnimatedWaves(animation: animation, width: width);
+    return AnimatedWaves(
+      animation: animation,
+      width: width,
+      maxHeightFraction: widget.maxHeightFraction,
+    );
   }
 }
 
 class AnimatedWaves extends AnimatedWidget {
-  const AnimatedWaves({Key? key, required this.animation, required this.width})
-      : super(listenable: animation);
+  const AnimatedWaves({
+    Key? key,
+    required this.animation,
+    required this.width,
+    required this.maxHeightFraction,
+  }) : super(listenable: animation);
 
   final Animation<double> animation;
   final double width;
+  final double maxHeightFraction;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         ClipPath(
-          clipper: WaveClipper(0.11, animation.value, offsetPercent: 0.2),
+          clipper: WaveClipper(maxHeightFraction, animation.value,
+              offsetPercent: 0.2),
           child: Container(
             color: const Color(0xFFFFDDE5),
           ),
         ),
         ClipPath(
-          clipper: WaveClipper(0.1, animation.value),
+          clipper: WaveClipper(maxHeightFraction - 0.05, animation.value * -1),
           child: Container(
             color: const Color(0xFFEE4266),
           ),
         ),
         ClipPath(
-          clipper: WaveClipper(0.08, animation.value, offsetPercent: 0.2),
+          clipper: WaveClipper(maxHeightFraction - 0.1, animation.value,
+              offsetPercent: 0.2),
           child: Container(
             color: const Color(0xFFFFB8C8),
           ),

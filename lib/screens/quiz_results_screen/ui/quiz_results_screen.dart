@@ -49,10 +49,7 @@ class QuizResultsScreen extends StatelessWidget {
                             ? Colors.green
                             : currentQuestionAnswers[i].isCorrect &&
                                     !currentUserAnswers.contains(i)
-                                ? currentQuestionAnswers[i].isCorrect &&
-                                        !currentUserAnswers.contains(i)
-                                    ? Colors.green
-                                    : null
+                                ? Colors.red
                                 : !currentQuestionAnswers[i].isCorrect &&
                                         currentUserAnswers.contains(i)
                                     ? Colors.red

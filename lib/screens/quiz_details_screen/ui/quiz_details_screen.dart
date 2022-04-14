@@ -5,6 +5,7 @@ import 'package:flutter_bloc_quiz_app/screens/quiz_details_screen/bloc/quiz_deta
 import 'package:flutter_bloc_quiz_app/screens/quiz_details_screen/bloc/quiz_details_event.dart';
 import 'package:flutter_bloc_quiz_app/screens/quiz_details_screen/bloc/quiz_details_state.dart';
 import 'package:flutter_bloc_quiz_app/screens/quiz_results_screen/ui/quiz_results_screen.dart';
+import 'package:flutter_bloc_quiz_app/screens/quiz_select_screen/ui/quiz_select_screen.dart';
 
 class QuizDetailsScreen extends StatelessWidget {
   static const routeName = 'QuizDetailsScreen';
@@ -30,56 +31,79 @@ class QuizDetailsScreen extends StatelessWidget {
           child: BlocBuilder<QuizDetailsBloc, QuizDetailsState>(
             builder: (context, state) {
               if (state is QuizDetailsQuestionDetails) {
-                return Column(
-                  mainAxisSize: MainAxisSize.max,
+                return Stack(
+                  fit: StackFit.expand,
                   children: [
-                    Text(
-                      state.question.content,
-                      style: Theme.of(context).textTheme.headline5,
+                    //TODO PRESERVE ANIMATION STATE DURING HERO TRANSITION
+                    const Hero(
+                      tag: "AnimatedBackground",
+                      child: AnimatedBackground(maxHeightFraction: 0.1),
                     ),
                     Center(
-                      child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: state.question.answers.length,
-                        itemBuilder: (context, index) {
-                          return CheckboxListTile(
-                            value: state.selectedAnswers.contains(index),
-                            onChanged: (_) =>
-                                context.read<QuizDetailsBloc>().add(
-                                      QuizDetailsChangeCheckAnswer(index),
-                                    ),
-                            title: Text(state.question.answers[index].content),
-                          );
-                        },
+                      child: Card(
+                        elevation: 10.0,
+                        margin: const EdgeInsets.all(20.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                state.question.content,
+                                style: Theme.of(context).textTheme.headline5,
+                              ),
+                              ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                itemCount: state.question.answers.length,
+                                itemBuilder: (context, index) {
+                                  return CheckboxListTile(
+                                    value:
+                                        state.selectedAnswers.contains(index),
+                                    onChanged: (_) => context
+                                        .read<QuizDetailsBloc>()
+                                        .add(
+                                          QuizDetailsChangeCheckAnswer(index),
+                                        ),
+                                    title: Text(
+                                        state.question.answers[index].content),
+                                  );
+                                },
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: state.status ==
+                                            QuizQuestionDetailsStatus.start
+                                        ? null
+                                        : () => context.read<QuizDetailsBloc>().add(
+                                            const QuizDetailsPreviousQuestion()),
+                                    child: const Text("Previous Question"),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: state.status ==
+                                            QuizQuestionDetailsStatus.end
+                                        ? () => context
+                                            .read<QuizDetailsBloc>()
+                                            .add(const QuizDetailsFinishQuiz())
+                                        : () => context
+                                            .read<QuizDetailsBloc>()
+                                            .add(
+                                                const QuizDetailsNextQuestion()),
+                                    child: state.status ==
+                                            QuizQuestionDetailsStatus.end
+                                        ? const Text("Finish Quiz")
+                                        : const Text("Next Question"),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          ElevatedButton(
-                            onPressed: state.status ==
-                                    QuizQuestionDetailsStatus.start
-                                ? null
-                                : () => context
-                                    .read<QuizDetailsBloc>()
-                                    .add(const QuizDetailsPreviousQuestion()),
-                            child: const Text("Previous Question"),
-                          ),
-                          ElevatedButton(
-                            onPressed: state.status ==
-                                    QuizQuestionDetailsStatus.end
-                                ? () => context
-                                    .read<QuizDetailsBloc>()
-                                    .add(const QuizDetailsFinishQuiz())
-                                : () => context
-                                    .read<QuizDetailsBloc>()
-                                    .add(const QuizDetailsNextQuestion()),
-                            child: state.status == QuizQuestionDetailsStatus.end
-                                ? const Text("Finish Quiz")
-                                : const Text("Next Question"),
-                          ),
-                        ]),
                   ],
                 );
               } else {
