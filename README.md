@@ -1,16 +1,21 @@
 # flutter_bloc_quiz_app
 
-A new Flutter project.
+Simple desktop quiz app made to practice flutter skills, and as a solution for a task in college.
+Quiz files are in .json format, encrypted with a simple caesar cipher with an offset of 1.
 
-## Getting Started
+## Used packages: 
+    Packages currently added to pubspec.yaml (They might not be used, as of right now, but will probably be used in future):
+    * file_picker: ^4.5.1
+    * flutter_bloc: ^8.0.1
+    * freezed: ^1.1.0
+    * equatable: ^2.0.3
+    * build_runner: ^2.1.8
+    * json_serializable: ^6.1.5
+    * json_annotation: ^4.4.0
+    * bloc_test: ^9.0.3
+    * test: ^1.19.5
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Preview
+<img src="screenshots/quiz_selection.png" width="500">
+<img src="screenshots/quiz_details.png" width="500">
+<img src="screenshots/quiz_score.png" width="500">
