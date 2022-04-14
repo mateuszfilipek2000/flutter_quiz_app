@@ -1,7 +1,7 @@
 # flutter_bloc_quiz_app
 
-Simple desktop quiz app made to practice flutter skills, and as a solution for a task in college.
-Quiz files are in .json format, encrypted with a simple caesar cipher with an offset of 1.
+Simple desktop quiz app made to practice flutter skills, and as a solution for a college task.
+Quiz files are stored in .json format, encrypted with a simple caesar cipher, with an offset of 1 character.
 
 ## Used packages: 
     Packages currently added to pubspec.yaml (They might not be used, as of right now, but will probably be used in future):

@@ -8,7 +8,7 @@ import 'package:flutter_bloc_quiz_app/screens/quiz_details_screen/bloc/quiz_deta
 import 'package:flutter_bloc_quiz_app/screens/quiz_details_screen/bloc/timer_bloc/timer_bloc.dart';
 import 'package:flutter_bloc_quiz_app/screens/quiz_details_screen/bloc/timer_bloc/timer_state.dart';
 import 'package:flutter_bloc_quiz_app/screens/quiz_results_screen/ui/quiz_results_screen.dart';
-import 'package:flutter_bloc_quiz_app/screens/quiz_select_screen/ui/quiz_select_screen.dart';
+import 'package:flutter_bloc_quiz_app/screens/quiz_select_screen/ui/widgets/animated_background.dart';
 
 class QuizDetailsScreen extends StatelessWidget {
   static const routeName = 'QuizDetailsScreen';
@@ -35,6 +35,12 @@ class QuizDetailsScreen extends StatelessWidget {
                   .pushNamed(QuizResultsScreen.routeName, arguments: {
                 'user_answers': state.userAnswers,
                 'quiz': state.quiz,
+                'duration': context.read<TimerBloc>().state is TimerRunning
+                    ? Duration(
+                        seconds:
+                            (context.read<TimerBloc>().state as TimerRunning)
+                                .duration)
+                    : null
               });
             }
           },
@@ -83,6 +89,12 @@ class QuizDetailsScreen extends StatelessWidget {
                               Text(
                                 state.question.content,
                                 style: Theme.of(context).textTheme.headline5,
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Divider(
+                                  height: 2.0,
+                                ),
                               ),
                               ListView.builder(
                                 scrollDirection: Axis.vertical,
