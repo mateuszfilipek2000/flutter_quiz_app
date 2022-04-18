@@ -28,7 +28,7 @@ class _AnimatedScoreInfoState extends State<AnimatedScoreInfo>
     final scorePercent = widget.scored / widget.total * 100.0;
 
     animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 5));
+        AnimationController(vsync: this, duration: const Duration(seconds: 4));
 
     circleBackgroundProgress = Tween<double>(begin: 0.0, end: 100.0).animate(
       CurvedAnimation(
@@ -38,12 +38,12 @@ class _AnimatedScoreInfoState extends State<AnimatedScoreInfo>
         Tween<double>(begin: 0.0, end: scorePercent).animate(
       CurvedAnimation(
           parent: animationController,
-          curve: const Interval(0.25, 0.7, curve: Curves.easeInOut)),
+          curve: const Interval(0.2, 0.6, curve: Curves.easeInOut)),
     );
 
     scoreTextOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
-          parent: animationController, curve: const Interval(0.6, 1.0)),
+          parent: animationController, curve: const Interval(0.4, 1.0)),
     );
 
     animationController.forward();

@@ -62,9 +62,20 @@ class QuizResultsScreen extends StatelessWidget {
                         itemBuilder: (context, i) {
                           return ListTile(
                             trailing: currentUserAnswers.contains(i)
-                                ? const Icon(Icons.check_box_outlined)
-                                : const Icon(
-                                    Icons.check_box_outline_blank_outlined),
+                                ? Icon(
+                                    Icons.check_box_outlined,
+                                    color:
+                                        currentQuestionAnswers[i].isCorrect ||
+                                                currentUserAnswers.contains(i)
+                                            ? Colors.white
+                                            : null,
+                                  )
+                                : Icon(Icons.check_box_outline_blank_outlined,
+                                    color:
+                                        currentQuestionAnswers[i].isCorrect ||
+                                                currentUserAnswers.contains(i)
+                                            ? Colors.white
+                                            : null),
                             tileColor: currentQuestionAnswers[i].isCorrect &&
                                     currentUserAnswers.contains(i)
                                 ? Colors.green

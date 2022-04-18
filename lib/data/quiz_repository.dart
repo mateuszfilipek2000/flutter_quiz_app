@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc_quiz_app/core/utils/caesar.dart';
+import 'package:flutter_bloc_quiz_app/core/utils/cipher_interface.dart';
 import 'package:flutter_bloc_quiz_app/models/quiz_model.dart';
 
 class QuizRepository {
@@ -22,8 +23,10 @@ class QuizRepository {
       File file = File(result!.files.single.path!);
 
       try {
+        CipherInterface cipher = Caesar();
+
         String encryptedString = await file.readAsString();
-        String decryptedString = Caesar.decode(encryptedString, shift: 1);
+        String decryptedString = cipher.decode(encryptedString);
         _quiz = Quiz.fromJson(json.decode(decryptedString));
         return _quiz;
       } catch (e) {

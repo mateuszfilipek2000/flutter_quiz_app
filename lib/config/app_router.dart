@@ -41,8 +41,18 @@ class AppRouter {
         if (arguments is Map<String, Object?> &&
             arguments['user_answers'] is List<List> &&
             arguments['quiz'] is Quiz) {
-          return MaterialPageRoute(
-            builder: (_) => QuizResultsScreen(
+          // return MaterialPageRoute(
+          //   builder: (_) => QuizResultsScreen(
+          //     quiz: arguments['quiz'] as Quiz,
+          //     userAnswers: arguments['user_answers'] as List<List<int>>,
+          //     duration: arguments['duration'] is Duration
+          //         ? arguments['duration'] as Duration
+          //         : null,
+          //   ),
+          //   settings: const RouteSettings(name: QuizResultsScreen.routeName),
+          // );
+          return PageRouteBuilder(
+            pageBuilder: (_, __, ___) => QuizResultsScreen(
               quiz: arguments['quiz'] as Quiz,
               userAnswers: arguments['user_answers'] as List<List<int>>,
               duration: arguments['duration'] is Duration
@@ -50,6 +60,22 @@ class AppRouter {
                   : null,
             ),
             settings: const RouteSettings(name: QuizResultsScreen.routeName),
+            transitionsBuilder: (_, a, __, c) {
+              const begin = Offset(0.0, 1.0);
+              const end = Offset.zero;
+              const curve = Curves.ease;
+
+              final tween = Tween(begin: begin, end: end);
+              final curvedAnimation = CurvedAnimation(
+                parent: a,
+                curve: curve,
+              );
+              return SlideTransition(
+                position: tween.animate(curvedAnimation),
+                child: c,
+              );
+            },
+            transitionDuration: const Duration(milliseconds: 1000),
           );
         } else {
           log(arguments.toString());
