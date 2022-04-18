@@ -1,6 +1,5 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'answer_model.dart';
@@ -22,7 +21,8 @@ Answer _$AnswerFromJson(Map<String, dynamic> json) {
 class _$AnswerTearOff {
   const _$AnswerTearOff();
 
-  _Answer call(String content, bool isCorrect) {
+  _Answer call(@JsonKey(name: 'Content') String content,
+      @JsonKey(name: 'IsCorrect') bool isCorrect) {
     return _Answer(
       content,
       isCorrect,
@@ -39,7 +39,9 @@ const $Answer = _$AnswerTearOff();
 
 /// @nodoc
 mixin _$Answer {
+  @JsonKey(name: 'Content')
   String get content => throw _privateConstructorUsedError;
+  @JsonKey(name: 'IsCorrect')
   bool get isCorrect => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -51,7 +53,9 @@ mixin _$Answer {
 abstract class $AnswerCopyWith<$Res> {
   factory $AnswerCopyWith(Answer value, $Res Function(Answer) then) =
       _$AnswerCopyWithImpl<$Res>;
-  $Res call({String content, bool isCorrect});
+  $Res call(
+      {@JsonKey(name: 'Content') String content,
+      @JsonKey(name: 'IsCorrect') bool isCorrect});
 }
 
 /// @nodoc
@@ -85,7 +89,9 @@ abstract class _$AnswerCopyWith<$Res> implements $AnswerCopyWith<$Res> {
   factory _$AnswerCopyWith(_Answer value, $Res Function(_Answer) then) =
       __$AnswerCopyWithImpl<$Res>;
   @override
-  $Res call({String content, bool isCorrect});
+  $Res call(
+      {@JsonKey(name: 'Content') String content,
+      @JsonKey(name: 'IsCorrect') bool isCorrect});
 }
 
 /// @nodoc
@@ -118,14 +124,17 @@ class __$AnswerCopyWithImpl<$Res> extends _$AnswerCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Answer implements _Answer {
-  const _$_Answer(this.content, this.isCorrect);
+  const _$_Answer(@JsonKey(name: 'Content') this.content,
+      @JsonKey(name: 'IsCorrect') this.isCorrect);
 
   factory _$_Answer.fromJson(Map<String, dynamic> json) =>
       _$$_AnswerFromJson(json);
 
   @override
+  @JsonKey(name: 'Content')
   final String content;
   @override
+  @JsonKey(name: 'IsCorrect')
   final bool isCorrect;
 
   @override
@@ -160,13 +169,16 @@ class _$_Answer implements _Answer {
 }
 
 abstract class _Answer implements Answer {
-  const factory _Answer(String content, bool isCorrect) = _$_Answer;
+  const factory _Answer(@JsonKey(name: 'Content') String content,
+      @JsonKey(name: 'IsCorrect') bool isCorrect) = _$_Answer;
 
   factory _Answer.fromJson(Map<String, dynamic> json) = _$_Answer.fromJson;
 
   @override
+  @JsonKey(name: 'Content')
   String get content;
   @override
+  @JsonKey(name: 'IsCorrect')
   bool get isCorrect;
   @override
   @JsonKey(ignore: true)

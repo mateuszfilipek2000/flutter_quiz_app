@@ -7,9 +7,9 @@ part 'quiz_model.g.dart';
 @freezed
 class Quiz with _$Quiz {
   const factory Quiz(
-      {required final String name,
-      required final List<Question> questions,
-      final String? summary}) = _Quiz;
+      {@JsonKey(name: 'Name') required final String name,
+      @JsonKey(name: 'Questions') required final List<Question> questions,
+      @JsonKey(name: 'Description') final String? summary}) = _Quiz;
 
   factory Quiz.fromJson(Map<String, dynamic> json) => _$QuizFromJson(json);
 }

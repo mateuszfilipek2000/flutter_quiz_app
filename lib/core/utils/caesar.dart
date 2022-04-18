@@ -27,7 +27,7 @@ class Caesar implements CipherInterface {
     return encode(code, shift: shift * (-1));
   }
 
-  @override
+  // @override
   String encode(String code, {int shift = 1}) {
     var alphabet = [
       'a',

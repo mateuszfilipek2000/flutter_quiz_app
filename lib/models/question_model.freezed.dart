@@ -1,6 +1,5 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'question_model.dart';
@@ -22,7 +21,9 @@ Question _$QuestionFromJson(Map<String, dynamic> json) {
 class _$QuestionTearOff {
   const _$QuestionTearOff();
 
-  _Question call({required String content, required List<Answer> answers}) {
+  _Question call(
+      {@JsonKey(name: 'Content') required String content,
+      @JsonKey(name: 'Answers') required List<Answer> answers}) {
     return _Question(
       content: content,
       answers: answers,
@@ -39,7 +40,9 @@ const $Question = _$QuestionTearOff();
 
 /// @nodoc
 mixin _$Question {
+  @JsonKey(name: 'Content')
   String get content => throw _privateConstructorUsedError;
+  @JsonKey(name: 'Answers')
   List<Answer> get answers => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -52,7 +55,9 @@ mixin _$Question {
 abstract class $QuestionCopyWith<$Res> {
   factory $QuestionCopyWith(Question value, $Res Function(Question) then) =
       _$QuestionCopyWithImpl<$Res>;
-  $Res call({String content, List<Answer> answers});
+  $Res call(
+      {@JsonKey(name: 'Content') String content,
+      @JsonKey(name: 'Answers') List<Answer> answers});
 }
 
 /// @nodoc
@@ -86,7 +91,9 @@ abstract class _$QuestionCopyWith<$Res> implements $QuestionCopyWith<$Res> {
   factory _$QuestionCopyWith(_Question value, $Res Function(_Question) then) =
       __$QuestionCopyWithImpl<$Res>;
   @override
-  $Res call({String content, List<Answer> answers});
+  $Res call(
+      {@JsonKey(name: 'Content') String content,
+      @JsonKey(name: 'Answers') List<Answer> answers});
 }
 
 /// @nodoc
@@ -119,14 +126,18 @@ class __$QuestionCopyWithImpl<$Res> extends _$QuestionCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Question implements _Question {
-  const _$_Question({required this.content, required this.answers});
+  const _$_Question(
+      {@JsonKey(name: 'Content') required this.content,
+      @JsonKey(name: 'Answers') required this.answers});
 
   factory _$_Question.fromJson(Map<String, dynamic> json) =>
       _$$_QuestionFromJson(json);
 
   @override
+  @JsonKey(name: 'Content')
   final String content;
   @override
+  @JsonKey(name: 'Answers')
   final List<Answer> answers;
 
   @override
@@ -162,13 +173,16 @@ class _$_Question implements _Question {
 
 abstract class _Question implements Question {
   const factory _Question(
-      {required String content, required List<Answer> answers}) = _$_Question;
+      {@JsonKey(name: 'Content') required String content,
+      @JsonKey(name: 'Answers') required List<Answer> answers}) = _$_Question;
 
   factory _Question.fromJson(Map<String, dynamic> json) = _$_Question.fromJson;
 
   @override
+  @JsonKey(name: 'Content')
   String get content;
   @override
+  @JsonKey(name: 'Answers')
   List<Answer> get answers;
   @override
   @JsonKey(ignore: true)
